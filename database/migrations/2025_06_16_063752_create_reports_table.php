@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('reported_id')->constrained('users');
             $table->string('violation_type');
             $table->text('description');
+            $table->enum('status', ['pending', 'resolved', 'dismissed'])->default('pending');
+            $table->timestamp('resolved_at')->nullable();
+            $table->timestamp('dismissed_at')->nullable();
             $table->timestamps();
         });
     }

@@ -20,10 +20,10 @@
 
         <div class="navbar-end">
             @auth
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; color: #FF6801;">
+                <div class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; color: #FF6801;">
                         Welcome, {{$user->name }}
-                        <img src="{{ asset($imagePath) }}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; padding-left: 10px;">
+                        <img src="{{ asset($imagePath) }}" alt="Foto Profil" class="rounded-circle" width="40" height="40">
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('profile', $user->id) }}" style="color: #FF6801;">My Profile</a>

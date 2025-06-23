@@ -10,7 +10,7 @@
                         <!-- Left: Text -->
                         <div class="col-md-6">
                             <h1 class="fw-bold" style="color: #FF6801;">BUY THE BEST<br>VEHICLES</h1>
-                            <h2 class="fw-light text-dark">IN YOUR REGION</h2>
+                            <h2 class="fw-bold text-dark">IN YOUR REGION</h2>
                             <p class="mt-3 text-muted">
                                 Use powerful search tool to find your desired cars based on multiple search criteria: Make,
                                 Model, Year, Price Range, Car Type, etc...
@@ -36,7 +36,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-6">
                             <h1 class="fw-bold" style="color: #FF6801;">SEARCH FOR<br>YOUR DREAM CAR</h1>
-                            <h2 class="fw-light text-dark">WITH EASE</h2>
+                            <h2 class="fw-bold text-dark">WITH EASE</h2>
                             <p class="mt-3 text-muted">
                                 Filter cars by city, brand, price, and more to find the perfect match for your needs.
                             </p>

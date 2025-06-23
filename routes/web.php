@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\ReportController;
 
 
 
@@ -31,8 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/follow/{Id}', [FollowController::class, 'follow'])->name('follow');
     Route::post('/unfollow/{Id}', [FollowController::class, 'unfollow'])->name('unfollow');
     Route::get('/profile/{id}', [UserController::class, 'profile'])->name('profile');
-    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
-    Route::post('/profile/change-password', [UserController::class, 'changePassword'])->name('profile.change-password');
+    Route::get('/profile/{id}/edit', [UserController::class, 'editProfile'])->name('profile.edit');
+    Route::post('/profile/{id}/edit', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/report', [ReportController::class, "showReportForm"])->name('report');
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 });
 

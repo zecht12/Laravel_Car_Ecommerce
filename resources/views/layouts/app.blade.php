@@ -27,26 +27,29 @@
     </head>
 
     <body style="width:100%; margin: 0;">
-        @php
-            use App\Models\Follow;
-            use App\Models\Seller;
-            use Illuminate\Support\Facades\Auth;
-            
-            $user = Auth::user();
-            $following = null;
-            if ($user && $user->role === 'buyer' && isset($seller)) {
-                $following = \App\Models\Follow::where('buyer_id', $user->id)->where('seller_id', $seller->id)->first();
-            }
+@php
+    use Illuminate\Support\Facades\Auth;
 
-            $photo = $user->photo;
+    $user = Auth::user();
+    $imagePath = 'user-solid.svg';
 
-            if (is_string($photo) && str_starts_with($photo, '[')) {
-                $decoded = json_decode($photo, true);
-                $imagePath = isset($decoded[0]) ? 'storage/' . $decoded[0] : 'user-solid.svg';
+    if ($user) {
+        $photo = $user->photo;
+        if (is_string($photo) && str_starts_with($photo, '[')) {
+            $decoded = json_decode($photo, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && isset($decoded[0])) {
+                $imagePath = 'storage/' . $decoded[0];
             } else {
-                $imagePath = $photo ? 'storage/' . $photo : 'user-solid.svg';
+                $imagePath = 'user-solid.svg';
             }
-        @endphp
+
+        } else {
+            $imagePath = $photo ? 'storage/' . $photo : 'user-solid.svg';
+        }
+    }
+@endphp
+
 
         <header>
             @include('components.navbar')
