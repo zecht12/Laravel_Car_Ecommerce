@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Report;
-
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -70,7 +70,17 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
+
         if ($request->hasFile('image')) {
+            if ($user->photo) {
+                $oldPaths = json_decode($user->photo, true);
+                foreach ($oldPaths as $oldPath) {
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+            }
+
             $file = $request->file('image');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('user', $filename, 'public');

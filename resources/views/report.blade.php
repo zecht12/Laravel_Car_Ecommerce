@@ -19,29 +19,36 @@
                     </ul>
                 </div>
             @endif
+            @auth
+                <form method="POST" action="{{ route('report.store') }}">
+                    @csrf
+                    <input type="hidden" name="reported_id" value="{{ $reportedId }}">
+                    <div class="mb-3">
+                        <label for="violation_type" class="form-label">Report Type</label>
+                        <select name="violation_type" id="violation_type" class="form-select" required>
+                            <option value="">Select Report Type</option>
+                            <option value="spam">Spam</option>
+                            <option value="abuse">Abuse</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
 
-            <form method="POST" action="{{ route('report.store') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="violation_type" class="form-label">Report Type</label>
-                    <select name="violation_type" id="violation_type" class="form-select" required>
-                        <option value="">Select Report Type</option>
-                        <option value="spam">Spam</option>
-                        <option value="abuse">Abuse</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100"
+                            style="width: 650px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
+                        Submit Report
+                    </button>
+                </form>
+            @endauth
+            @guest
+                <div class="alert alert-warning">
+                    You must be logged in to submit a report.
                 </div>
-
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100"
-                        style="width: 650px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
-                    Submit Report
-                </button>
-            </form>
+            @endguest
         </div>
     </div>
     <script>

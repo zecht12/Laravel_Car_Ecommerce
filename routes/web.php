@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{id}/edit', [UserController::class, 'editProfile'])->name('profile.edit');
     Route::post('/profile/{id}/edit', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::get('/report', [ReportController::class, "showReportForm"])->name('report');
+    Route::post('/report', [ReportController::class, 'storeReport'])->name('report.store');
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 });
 

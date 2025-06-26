@@ -32,19 +32,18 @@ class AuthController extends Controller
 
     $credentials = $request->only('email', 'password');
     $remember = $request->has('remember');
-    $totalReports = Report::where('reported_id', $currentUser->id)->count();
+    $totalReports = Report::where('reported_id', Auth::id())->count();
 
     if (preg_match('/(=|--|\b(OR|AND)\b)/i', $request->password)) {
         return back()->withErrors(['password' => 'Password contains invalid characters.']);
     }
 
     if ($totalReports >= 3) {
-        return back()->withErrors(['login' => 'This user has been banned due to multiple reports.']);
-    } elseif ($totalReports >= 1) {
-        $user = User::where('email', $credentials['email'])->where('status', '!=', 'banned')->first();
-        if (!$user) {
-            return back()->withErrors(['login' => 'User not found or banned.']);
+        auth()->logout();
+        if (condition) {
+            # code...
         }
+        return back()->withErrors(['login' => 'This user has been banned due to multiple reports.']);
     } else {
         $user = User::where('email', $credentials['email'])->first();
         if (!$user) {

@@ -9,21 +9,32 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-    public function showReportForm()
+    public function showReportForm(Request $request)
     {
-        return view('report');
+        $reportedId = $request->query('reported');
+
+        if (Auth::id() == $reportedId) {
+            return redirect()->back()->withErrors(['error' => 'You cannot report yourself.']);
+        }
+
+        return view('report', compact('reportedId'));
     }
 
     public function storeReport(Request $request)
     {
         $request->validate([
-            'reporter_id' => 'required|exists:users,id',
             'reported_id' => 'required|exists:users,id',
             'description' => 'required|string|max:1000',
             'violation_type' => 'required|string|in:spam,abuse,harassment,other',
         ]);
 
-        $report = Report();
+        $existing = Report::where('reporter_id', Auth::id())
+            ->where('reported_id', $request->reported_id)
+            ->first();
+        if ($existing) {
+            return redirect()->back()->withErrors(['error' => 'You have already reported this user.']);
+        }
+
         $report = new Report();
         $report->reporter_id = Auth::id();
         $report->reported_id = $request->reported_id;
@@ -38,17 +49,15 @@ class ReportController extends Controller
             $reportedUser = User::find($request->reported_id);
             $reportedUser->status = 'banned';
             $reportedUser->save();
-        } elseif ($totalReports >= 1) {
-            $report->status = 'dismissed';
-            $report->dismissed_at = now();
+        } else {
+            $report->status = 'pending';
             $reportedUser = User::find($request->reported_id);
             $reportedUser->status = 'reported';
             $reportedUser->save();
-        } else {
-            $report->status = 'pending';
         }
 
         $report->save();
-        return redirect()->route('report.success')->with('success', 'Report submitted successfully.');
+
+        return redirect()->route('profile', $request->reported_id)->with('success', 'Report submitted successfully.');
     }
 }

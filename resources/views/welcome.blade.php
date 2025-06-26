@@ -15,7 +15,7 @@
                                 Use powerful search tool to find your desired cars based on multiple search criteria: Make,
                                 Model, Year, Price Range, Car Type, etc...
                             </p>
-                            <a href="#" class="btn btn-primary px-4 py-2 mt-2"
+                            <a href="#car" class="btn btn-primary px-4 py-2 mt-2"
                                 style="--bs-btn-color: #ffff;--bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
                                 FIND CAR
                             </a>
@@ -40,7 +40,7 @@
                             <p class="mt-3 text-muted">
                                 Filter cars by city, brand, price, and more to find the perfect match for your needs.
                             </p>
-                            <a href="#" class="btn btn-primary px-4 py-2 mt-2"
+                            <a href="#car" class="btn btn-primary px-4 py-2 mt-2"
                                 style="--bs-btn-color: #ffff;--bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
                                 FIND CAR
                             </a>
@@ -130,7 +130,7 @@
                 </button>
             </div>
         </form>
-        <div class="container px-4 py-3 mx-auto" style="max-width: 1600px;">
+        <div id="car" class="container px-4 py-3 mx-auto" style="max-width: 1600px;">
             <p class="fw-bold fs-4">Trending Car</p>
             <div id="trendingCarCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">

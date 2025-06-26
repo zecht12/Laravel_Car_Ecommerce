@@ -106,7 +106,6 @@
             </div>
         @endif
 
-
         <div class="text-center mb-3">
             @if ($viewingOwnProfile)
                 <a href="{{ route('profile.edit', ['id' => $user->id]) }}" class="btn btn-primary" style="width: 650px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
@@ -121,10 +120,10 @@
                 @else
                     <form action="{{ route('follow', $user->id) }}" method="POST" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-primary" style="width: 300px">Follow</button>
+                        <button type="submit" class="btn btn-primary" style="width: 300px;">Follow</button>
                     </form>
                 @endif
-                <button class="btn btn-danger" style="width: 300px">Report</button>
+                <a href="{{ route('report', ['reported' => $user->id]) }}" class="btn btn-danger" style="width: 300px;">Report</a>
                 <button class="btn btn-primary"
                     style="width: 50px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">✉️</button>
             @endif
