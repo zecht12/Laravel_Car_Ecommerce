@@ -11,14 +11,23 @@ class ChatController extends Controller
 {
     public function index($userId)
     {
-        $user = Auth::id();
+        $currentUserId = Auth::id();
 
-        $messages = Chat::where(function ($q) use ($user, $userId) {
-                $q->where('from_user', $user)->where('to_user', $userId);
+        Chat::where('from_user', $userId)
+            ->where('to_user', $currentUserId)
+            ->where('is_read', false)
+            ->update([
+                'is_read' => true,
+                'read_at' => now(),
+            ]);
+
+        $messages = Chat::where(function ($q) use ($currentUserId, $userId) {
+                $q->where('from_user', $currentUserId)->where('to_user', $userId);
             })
-            ->orWhere(function ($q) use ($user, $userId) {
-                $q->where('from_user', $userId)->where('to_user', $user);
+            ->orWhere(function ($q) use ($currentUserId, $userId) {
+                $q->where('from_user', $userId)->where('to_user', $currentUserId);
             })
+            ->where('is_deleted', false)
             ->orderBy('sent_at', 'asc')
             ->get();
 
@@ -51,6 +60,22 @@ class ChatController extends Controller
         $users = \App\Models\User::whereIn('id', $chatUserIds)->get();
 
         return view('chat.my-chats', compact('users'));
+    }
+
+    public function destroy($id)
+    {
+        $message = Chat::where('id', $id)
+            ->where(function ($q) {
+                $q->where('from_user', Auth::id())->orWhere('to_user', Auth::id());
+            })
+            ->firstOrFail();
+
+        $message->update([
+            'is_deleted' => true,
+            'deleted_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Message deleted!');
     }
 }
 

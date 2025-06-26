@@ -2,6 +2,9 @@
 @section('page_title', 'My Chats')
 
 @section('main_content')
+    @php
+        use Illuminate\Support\Str;
+    @endphp
     <style>
         .chat-user-card {
             transition: 0.3s;

@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [ChatController::class, 'myChats'])->name('chat.my');
     Route::get('/chat/{userId}', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.store');
+    Route::delete('/chat/delete/{id}', [ChatController::class, 'destroy'])->name('chat.delete');
 
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 });
