@@ -3,11 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Chat extends Model
 {
-    protected $fillable = ['from_user', 'to_user', 'message'];
+    use SoftDeletes;
+
+    protected $fillable = [
+        'from_user', 'to_user', 'message', 'is_read', 'read_at',
+        'attachment', 'attachment_type', 'sent_at', 'received_at',
+        'status', 'chat_type', 'is_deleted', 'is_archived'
+    ];
 
     public function sender()
     {

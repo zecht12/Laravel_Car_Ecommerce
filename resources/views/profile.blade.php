@@ -14,6 +14,8 @@
         use App\Models\Car;
         use App\Models\Favorite;
         use App\Models\Follow;
+        use Illuminate\Support\Str;
+
         $currentUser = Auth::user();
         $id = $currentUser ? $currentUser->id : null;
         $photo = $user->photo;
@@ -22,7 +24,7 @@
             $decoded = json_decode($photo, true);
             $imagePath = isset($decoded[0]) ? 'storage/' . $decoded[0] : 'user-solid.svg';
         } else {
-            $imagePath = $photo ? 'storage/' . $photo : 'user-solid.svg';
+            $imagePath = $photo ? (Str::startsWith($photo, 'http') ? $photo : 'storage/' . $photo) : 'user-solid.svg';
         }
 
         $viewingOwnProfile = $currentUser && $currentUser->id === $user->id;
@@ -108,7 +110,8 @@
 
         <div class="text-center mb-3">
             @if ($viewingOwnProfile)
-                <a href="{{ route('profile.edit', ['id' => $user->id]) }}" class="btn btn-primary" style="width: 650px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
+                <a href="{{ route('profile.edit', ['id' => $user->id]) }}" class="btn btn-primary"
+                    style="width: 650px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">
                     Edit Profile
                 </a>
             @else
@@ -123,9 +126,13 @@
                         <button type="submit" class="btn btn-primary" style="width: 300px;">Follow</button>
                     </form>
                 @endif
-                <a href="{{ route('report', ['reported' => $user->id]) }}" class="btn btn-danger" style="width: 300px;">Report</a>
-                <button class="btn btn-primary"
-                    style="width: 50px; height: 37px; --bs-btn-color: #ffff; --bs-btn-bg:#FF6801; --bs-btn-border-color: #FF6801; --bs-btn-hover-bg: #e75c00; --bs-btn-hover-border-color: #e75c00;">✉️</button>
+                <a href="{{ route('report', ['reported' => $user->id]) }}" class="btn btn-danger" style="width: 300px;">
+                    Report
+                </a>
+                <a href="{{ route('chat.index', $user->id) }}" class="btn btn-primary"
+                    style="width: 50px; height: 37px; --bs-btn-color: #fff; --bs-btn-bg:#FF6801;">
+                    ✉️
+                </a>
             @endif
         </div>
         @if ($user->role === 'seller')

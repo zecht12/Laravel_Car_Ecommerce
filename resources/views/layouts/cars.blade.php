@@ -26,7 +26,7 @@
         </style>
     </head>
 
-    <body style="width:100%; margin: 0;">
+    <body style="background-color: rgb(233, 233, 233); width:100%; margin: 0;">
     @php
         use Illuminate\Support\Facades\Auth;
         use Illuminate\Support\Str;
@@ -46,6 +46,7 @@
                 $imagePath = 'storage/' . $user->photo;
             }
         }
+
     @endphp
 
         <header>

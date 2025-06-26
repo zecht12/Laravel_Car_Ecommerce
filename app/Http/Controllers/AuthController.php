@@ -125,7 +125,7 @@ class AuthController extends Controller
                 'name' => $googleUser->getName(),
                 'password' => Hash::make(uniqid()),
                 'role' => 'buyer',
-                'photo' => 'public/person.jpeg'
+                'photo' => $googleUser->getAvatar() ?: 'public/user-solid.svg',
             ]
         );
         Auth::login($user, true);

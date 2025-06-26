@@ -27,8 +27,11 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('profile', $user->id) }}" style="color: #FF6801;">My Profile</a>
-                        <a class="dropdown-item" href="" style="color: #FF6801;">My Car</a>
+                        <a class="dropdown-item" href="{{route('mycars')}}" style="color: #FF6801;">My Car</a>
                         <a class="dropdown-item" href="" style="color: #FF6801;">My Favorite Car</a>
+                        <a class="dropdown-item" href="{{ route('chat.my') }}" style="color: #FF6801;">
+                            My Chat
+                        </a>
                         @if($user->role === 'admin')
                             <a class="dropdown-item" href="" style="color: #FF6801;">Admin Page</a>
                         @endif
