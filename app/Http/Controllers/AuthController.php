@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Report;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -126,6 +127,7 @@ class AuthController extends Controller
                 'password' => Hash::make(uniqid()),
                 'role' => 'buyer',
                 'photo' => $googleUser->getAvatar() ?: 'public/user-solid.svg',
+                "email_verified_at" => Carbon::now(),
             ]
         );
         Auth::login($user, true);

@@ -21,11 +21,13 @@ class ChatController extends Controller
                 'read_at' => now(),
             ]);
 
-        $messages = Chat::where(function ($q) use ($currentUserId, $userId) {
-                $q->where('from_user', $currentUserId)->where('to_user', $userId);
+        $messages = Chat::where(function ($query) use ($currentUserId, $userId) {
+                $query->where('from_user', $currentUserId)
+                    ->where('to_user', $userId);
             })
-            ->orWhere(function ($q) use ($currentUserId, $userId) {
-                $q->where('from_user', $userId)->where('to_user', $currentUserId);
+            ->orWhere(function ($query) use ($currentUserId, $userId) {
+                $query->where('from_user', $userId)
+                    ->where('to_user', $currentUserId);
             })
             ->where('is_deleted', false)
             ->orderBy('sent_at', 'asc')
@@ -33,6 +35,7 @@ class ChatController extends Controller
 
         return view('chat.pages', compact('messages', 'userId'));
     }
+
 
     public function store(Request $request)
     {
@@ -42,6 +45,10 @@ class ChatController extends Controller
             'message' => $request->message,
             'sent_at' => now(),
             'status' => 'sent',
+            'chat_type' => 'text',
+            'is_read' => false,
+            'is_deleted' => false,
+            'is_archived' => false,
         ]);
 
         return redirect()->route('chat.index', $request->to_user)->with('success', 'Message sent!');
@@ -73,6 +80,7 @@ class ChatController extends Controller
         $message->update([
             'is_deleted' => true,
             'deleted_at' => now(),
+            'status' => 'deleted',
         ]);
 
         return redirect()->back()->with('success', 'Message deleted!');
